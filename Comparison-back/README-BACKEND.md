@@ -1,12 +1,12 @@
 # Backend - Spring Boot Crypto Comparison API
 
-This is the backend service for the RSA vs ECC performance comparison tool, built with Spring Boot and Java 21.
+This is the backend service for the RSA vs ECC performance comparison tool, built with Spring Boot and Java 17.
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- **Java 21 or higher**
+- **Java 17 or higher**
 - **Gradle 7.0+**
 
 ### Running the Backend
@@ -326,7 +326,7 @@ Key dependencies in `build.gradle`:
 ```bash
 # Check Java version
 java -version
-# Should show Java 21 or higher
+# Should show Java 17 or higher
 ```
 
 #### Port Already in Use

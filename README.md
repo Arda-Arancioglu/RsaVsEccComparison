@@ -15,7 +15,7 @@ A comprehensive comparison tool for analyzing the performance differences betwee
 
 ### Backend Requirements
 
-- **Java 21 or higher**
+- **Java 17 or higher**
 - **Gradle 7.0+**
 - **IntelliJ IDEA** (recommended) or any Java IDE
 
@@ -147,7 +147,7 @@ RsaVsEccComparison/
 #### Backend Issues
 
 - **Port 8080 already in use**: Change server port in `application.properties`
-- **Java version issues**: Ensure Java 21+ is installed and set as JAVA_HOME
+- **Java version issues**: Ensure Java 17+ is installed and set as JAVA_HOME
 - **Gradle build fails**: Run `./gradlew clean` then `./gradlew build`
 
 #### Frontend Issues

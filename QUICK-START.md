@@ -66,5 +66,5 @@ Check the detailed README files:
 
 ## 📋 Requirements
 
-- **Java 21+** for backend
+- **Java 17+** for backend
 - **Node.js 18+** for frontend
