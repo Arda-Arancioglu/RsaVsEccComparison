@@ -33,9 +33,10 @@ git clone https://github.com/Arda-Arancioglu/RsaVsEccComparison.git
 cd RsaVsEccComparison
 ```
 
-### 2. Backend Setup
+### 2. Backend Setup (Terminal 1)
 
 ```bash
+# From the root directory (RsaVsEccComparison/)
 cd Comparison-back
 
 # On Windows
@@ -49,14 +50,15 @@ cd Comparison-back
 
 The backend will start on `http://localhost:8080`
 
-### 3. Frontend Setup
+⚠️ **Keep this terminal running** - the backend server will continue running here.
+
+### 3. Frontend Setup (Terminal 2)
+
+**Open a NEW terminal window/tab** (the backend terminal is busy running the server)
 
 ```bash
-# If you're in the root directory (most common when using IDE terminals)
+# From the root directory (RsaVsEccComparison/)
 cd Comparison-front
-
-# OR if you followed step 2 and are still in Comparison-back/ directory
-cd ../Comparison-front
 
 # Install dependencies
 npm install
@@ -65,19 +67,22 @@ npm install
 npm run dev
 ```
 
-**💡 Tip**: If you're using VS Code or IntelliJ IDEA and opened the project folder, your terminal will start in the root directory (`EccRsaComparison/`), so use `cd Comparison-front`.
-
 The frontend will start on `http://localhost:5173`
+
+⚠️ **Keep this terminal running** - the Vite dev server will continue running here.
 
 ## 🎯 Usage
 
-1. **Start the Backend**: Make sure the Spring Boot application is running on port 8080
-2. **Start the Frontend**: Open your browser to `http://localhost:5173`
-3. **Run Tests**:
+1. **Backend Running**: Keep Terminal 1 running with the Spring Boot application on port 8080
+2. **Frontend Running**: Keep Terminal 2 running with the Vite dev server on port 5173
+3. **Open Browser**: Navigate to `http://localhost:5173`
+4. **Run Tests**:
    - Select data size (100-2000 characters)
    - Choose between individual algorithm tests or comparison tests
    - Run batch tests for statistical analysis
-4. **View Results**: Real-time performance charts and detailed metrics
+5. **View Results**: Real-time performance charts and detailed metrics
+
+💡 **Both terminals must stay open** while you're using the application!
 
 ## 📊 Performance Metrics
 
