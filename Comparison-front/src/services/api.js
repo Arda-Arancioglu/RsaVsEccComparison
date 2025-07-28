@@ -112,4 +112,33 @@ export const eccAPI = {
   }
 };
 
+// RSA+AES Hybrid API endpoints
+export const rsaAesAPI = {
+  // Generate RSA key pair for hybrid encryption
+  generateKeyPair: async (keySize = 2048) => {
+    const response = await api.post('/crypto/rsa-aes/generateKeys', {
+      keySize
+    });
+    return response.data;
+  },
+  
+  // Encrypt data using RSA+AES hybrid
+  encrypt: async (sessionId, data) => {
+    const response = await api.post('/crypto/rsa-aes/encrypt', {
+      sessionId,
+      data
+    });
+    return response.data;
+  },
+  
+  // Decrypt data using RSA+AES hybrid
+  decrypt: async (sessionId, encryptedData) => {
+    const response = await api.post('/crypto/rsa-aes/decrypt', {
+      sessionId,
+      encryptedData
+    });
+    return response.data;
+  }
+};
+
 export default api;

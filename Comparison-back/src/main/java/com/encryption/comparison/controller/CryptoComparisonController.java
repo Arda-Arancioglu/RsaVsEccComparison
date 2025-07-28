@@ -4,6 +4,7 @@ import com.encryption.comparison.model.*;
 import com.encryption.comparison.service.CryptoComparisonService;
 import com.encryption.comparison.service.EccCryptoService;
 import com.encryption.comparison.service.RsaCryptoService;
+import com.encryption.comparison.service.RsaAesHybridService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ public class CryptoComparisonController {
     private final CryptoComparisonService comparisonService;
     private final RsaCryptoService rsaService;
     private final EccCryptoService eccService;
+    private final RsaAesHybridService rsaAesHybridService;
 
     // Store keys for demonstration (in production, use proper key management)
     private final Map<String, Object[]> sessionKeys = new HashMap<>();
@@ -35,7 +37,8 @@ public class CryptoComparisonController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("text", randomText);
-        response.put("length", length);
+        response.put("requestedLength", length); // Original request
+        response.put("actualLength", randomText.length()); // Actual text length
         return response;
     }
 
@@ -218,6 +221,101 @@ public class CryptoComparisonController {
             response.put("success", true);
             response.put("decryptedData", decryptedText);
             response.put("algorithm", "ECC");
+            response.put("decryptionTime", elapsedTime);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", e.getMessage());
+        }
+
+        return response;
+    }
+
+    // RSA+AES Hybrid Endpoints
+    @PostMapping("/rsa-aes/generateKeys")
+    public Map<String, Object> generateRsaAesKeys(@RequestBody Map<String, Integer> request) {
+        int keySize = request.getOrDefault("keySize", 2048);
+        String sessionId = java.util.UUID.randomUUID().toString();
+
+        Map<String, Object> response = new HashMap<>();
+        long startTime = System.nanoTime();
+
+        try {
+            Object[] keyPair = rsaAesHybridService.generateKeyPair(keySize);
+            sessionKeys.put("rsa-aes-" + sessionId, keyPair);
+
+            long endTime = System.nanoTime();
+            double elapsedTime = (endTime - startTime) / 1_000_000.0; // ms
+
+            response.put("success", true);
+            response.put("sessionId", sessionId);
+            response.put("algorithm", "RSA+AES Hybrid");
+            response.put("keySize", keySize);
+            response.put("generationTime", elapsedTime);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", e.getMessage());
+        }
+
+        return response;
+    }
+
+    @PostMapping("/rsa-aes/encrypt")
+    public Map<String, Object> encryptWithRsaAes(@RequestBody EncryptionRequest request) {
+        Map<String, Object> response = new HashMap<>();
+        String sessionId = request.getSessionId();
+        Object[] keyPair = sessionKeys.get("rsa-aes-" + sessionId);
+
+        if (keyPair == null) {
+            response.put("success", false);
+            response.put("error", "No RSA+AES key pair found for session ID");
+            return response;
+        }
+
+        long startTime = System.nanoTime();
+        try {
+            byte[] data = request.getData().getBytes();
+            byte[] encrypted = rsaAesHybridService.encrypt(data, keyPair[0]);
+            String encodedData = Base64.getEncoder().encodeToString(encrypted);
+
+            long endTime = System.nanoTime();
+            double elapsedTime = (endTime - startTime) / 1_000_000.0; // ms
+
+            response.put("success", true);
+            response.put("encryptedData", encodedData);
+            response.put("algorithm", "RSA+AES Hybrid");
+            response.put("encryptionTime", elapsedTime);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", e.getMessage());
+        }
+
+        return response;
+    }
+
+    @PostMapping("/rsa-aes/decrypt")
+    public Map<String, Object> decryptWithRsaAes(@RequestBody DecryptionRequest request) {
+        Map<String, Object> response = new HashMap<>();
+        String sessionId = request.getSessionId();
+        Object[] keyPair = sessionKeys.get("rsa-aes-" + sessionId);
+
+        if (keyPair == null) {
+            response.put("success", false);
+            response.put("error", "No RSA+AES key pair found for session ID");
+            return response;
+        }
+
+        long startTime = System.nanoTime();
+        try {
+            byte[] encryptedData = Base64.getDecoder().decode(request.getEncryptedData());
+            byte[] decrypted = rsaAesHybridService.decrypt(encryptedData, keyPair[1]);
+            String decryptedText = new String(decrypted);
+
+            long endTime = System.nanoTime();
+            double elapsedTime = (endTime - startTime) / 1_000_000.0; // ms
+
+            response.put("success", true);
+            response.put("decryptedData", decryptedText);
+            response.put("algorithm", "RSA+AES Hybrid");
             response.put("decryptionTime", elapsedTime);
         } catch (Exception e) {
             response.put("success", false);

@@ -14,14 +14,148 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f8fafc;
-  color: #1a202c;
+  background-color: #0a0a0a;
+  color: #f0f0f0;
   line-height: 1.6;
+  font-size: 16px; /* Increased base font size */
 }
 
 #root {
   min-height: 100vh;
   width: 100%;
+}
+
+/* Dark Mode Theme - Near Black with Gray Tones */
+.dark-bg {
+  background-color: #0a0a0a;
+}
+
+.dark-bg-secondary {
+  background-color: #141414;
+}
+
+.dark-bg-tertiary {
+  background-color: #1a1a1a;
+}
+
+.dark-text {
+  color: #f0f0f0;
+}
+
+.dark-text-secondary {
+  color: #e0e0e0;
+}
+
+.dark-text-muted {
+  color: #b0b0b0;
+}
+
+/* Dark Mode Cards */
+.dark-card {
+  background-color: #121212;
+  border-color: #2a2a2a;
+}
+
+.dark-card-purple {
+  background: linear-gradient(135deg, #2d1b69 0%, #1e1b3a 100%);
+  border-color: #4a4a4a;
+}
+
+/* Dark Mode Buttons */
+.dark-button {
+  background-color: #1f1f1f;
+  color: #f0f0f0;
+  border: 1px solid #333333;
+}
+
+.dark-button:hover {
+  background-color: #2a2a2a;
+}
+
+.dark-button-primary {
+  background-color: #1e40af;
+  color: #ffffff;
+  border: 1px solid #1d4ed8;
+}
+
+.dark-button-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.dark-button-danger {
+  background-color: #dc2626;
+  color: #ffffff;
+  border: 1px solid #b91c1c;
+}
+
+.dark-button-danger:hover {
+  background-color: #b91c1c;
+}
+
+/* Dark Mode Inputs */
+.dark-input {
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+  border: 1px solid #333333;
+}
+
+.dark-input:focus {
+  background-color: #1f1f1f;
+  border-color: #4a4a4a;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.dark-input::placeholder {
+  color: #888888;
+}
+
+.dark-border {
+  border-color: #475569;
+}
+
+.dark-input {
+  background-color: #1e293b;
+  border-color: #475569;
+  color: #e2e8f0;
+}
+
+.dark-input:focus {
+  border-color: #3b82f6;
+  background-color: #334155;
+}
+
+.dark-card {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+.dark-button {
+  background-color: #334155;
+  color: #e2e8f0;
+  border-color: #475569;
+}
+
+.dark-button:hover {
+  background-color: #475569;
+}
+
+.dark-button-primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.dark-button-primary:hover {
+  background-color: #2563eb;
+}
+
+.dark-button-danger {
+  background-color: #dc2626;
+  color: white;
+}
+
+.dark-button-danger:hover {
+  background-color: #b91c1c;
 }
 
 /* Utility Classes */

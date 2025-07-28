@@ -10,15 +10,15 @@ const TestResult = ({ test, isRunning }) => {
   };
 
   const getStatusColor = () => {
-    if (isRunning) return 'border-blue-300 bg-blue-100';
-    if (test.success) return 'border-green-200 bg-green-50';
-    return 'border-red-200 bg-red-50';
+    if (isRunning) return { backgroundColor: '#1a237e', borderColor: '#3949ab' };
+    if (test.success) return { backgroundColor: '#1b5e20', borderColor: '#4caf50' };
+    return { backgroundColor: '#3e2723', borderColor: '#d32f2f' };
   };
 
   return (
-    <div className={`border rounded-lg p-4 ${getStatusColor()}`}>
+    <div className="border rounded-lg p-4" style={getStatusColor()}>
       <div className="flex items-center justify-between mb-2">
-        <h4 className="font-semibold text-gray-800">{test.algorithm}</h4>
+        <h4 className="font-semibold" style={{ color: '#f0f0f0' }}>{test.algorithm}</h4>
         {getStatusIcon()}
       </div>
       
@@ -26,43 +26,43 @@ const TestResult = ({ test, isRunning }) => {
         <div className="space-y-2 text-sm">
           {!test.excludedKeyGen && (
             <div className="flex items-center gap-2">
-              <Clock className="w-3 h-3 text-gray-500" />
-              <span>Key Generation: {formatTime(test.keyGenTime)}</span>
+              <Clock className="w-3 h-3" style={{ color: '#b0b0b0' }} />
+              <span style={{ color: '#e0e0e0' }}>Key Generation: {formatTime(test.keyGenTime)}</span>
             </div>
           )}
           <div className="flex items-center gap-2">
-            <Clock className="w-3 h-3 text-gray-500" />
-            <span>Encryption: {formatTime(test.encryptTime)}</span>
+            <Clock className="w-3 h-3" style={{ color: '#b0b0b0' }} />
+            <span style={{ color: '#e0e0e0' }}>Encryption: {formatTime(test.encryptTime)}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Clock className="w-3 h-3 text-gray-500" />
-            <span>Decryption: {formatTime(test.decryptTime)}</span>
+            <Clock className="w-3 h-3" style={{ color: '#b0b0b0' }} />
+            <span style={{ color: '#e0e0e0' }}>Decryption: {formatTime(test.decryptTime)}</span>
           </div>
-          <div className="border-t pt-2 font-medium">
+          <div className="border-t pt-2 font-medium" style={{ borderColor: '#404040', color: '#f0f0f0' }}>
             Total Time: {formatTime(test.totalTime)}
             {test.excludedKeyGen && (
-              <span className="text-xs text-gray-500 ml-2">(excluding key gen)</span>
+              <span className="text-xs ml-2" style={{ color: '#b0b0b0' }}>(excluding key gen)</span>
             )}
           </div>
           {test.keySize && (
-            <div className="text-xs text-gray-600 mt-1">
+            <div className="text-xs mt-1" style={{ color: '#b0b0b0' }}>
               Key Size: {test.keySize} bits
             </div>
           )}
           {test.excludedKeyGen && (
-            <div className="text-xs text-gray-600 mt-1">
+            <div className="text-xs mt-1" style={{ color: '#b0b0b0' }}>
               Key Generation: {formatTime(test.keyGenTime)} (excluded from total)
             </div>
           )}
           {test.sessionId && (
-            <div className="text-xs text-gray-600 mt-1">
+            <div className="text-xs mt-1" style={{ color: '#b0b0b0' }}>
               Session ID: {test.sessionId.substring(0, 8)}...
             </div>
           )}
           {test.encryptedData && (
             <div className="mt-2">
-              <p className="text-xs text-gray-600 mb-1">Encrypted Data (first 100 chars):</p>
-              <code className="text-xs bg-gray-100 p-1 rounded block break-all">
+              <p className="text-xs mb-1" style={{ color: '#b0b0b0' }}>Encrypted Data (first 100 chars):</p>
+              <code className="text-xs p-1 rounded block break-all" style={{ backgroundColor: '#1a1a1a', color: '#e0e0e0' }}>
                 {typeof test.encryptedData === 'string' 
                   ? test.encryptedData.substring(0, 100) + '...'
                   : JSON.stringify(test.encryptedData).substring(0, 100) + '...'
@@ -74,14 +74,14 @@ const TestResult = ({ test, isRunning }) => {
       )}
       
       {test.error && (
-        <div className="text-red-600 text-sm mt-2">
+        <div className="text-sm mt-2" style={{ color: '#ff8a80' }}>
           <p className="font-medium">Error:</p>
           <p className="text-xs">{test.error}</p>
         </div>
       )}
       
       {isRunning && (
-        <div className="text-blue-600 text-sm mt-2">
+        <div className="text-sm mt-2" style={{ color: '#81c784' }}>
           <p>Running {test.algorithm} encryption test...</p>
         </div>
       )}

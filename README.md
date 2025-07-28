@@ -180,9 +180,25 @@ If you encounter CORS errors, the backend is configured to allow all origins in 
 ### Typical Performance Characteristics:
 
 - **ECC Key Generation**: ~90% faster than RSA
-- **ECC Encryption**: ~5-10% slower than RSA (normal)
+- **ECC Encryption**: ~5-10% slower than RSA (normal - see explanation below)
 - **ECC Decryption**: ~70-80% faster than RSA
 - **Security**: ECC-256 ≈ RSA-3072 security level
+
+### Important Note on Encryption Methods:
+
+- **RSA**: Uses direct public key encryption (PKCS1 padding)
+
+  - ✅ Fast for small data
+  - ❌ Limited to ~245 bytes for 2048-bit keys
+  - Real-world use: Key exchange, digital signatures
+
+- **ECC**: Uses ECIES (Elliptic Curve Integrated Encryption Scheme)
+  - ✅ No data size limitations
+  - ✅ Includes built-in AES encryption + HMAC integrity
+  - ⚠️ Slight overhead due to hybrid encryption process
+  - Real-world use: Data encryption, modern cryptographic systems
+
+This comparison reflects **real-world cryptographic usage patterns** where RSA is used for small data/keys and ECC (ECIES) is used for secure data encryption.
 
 ## 🤝 Contributing
 
