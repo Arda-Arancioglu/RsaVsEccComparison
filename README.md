@@ -52,7 +52,11 @@ The backend will start on `http://localhost:8080`
 ### 3. Frontend Setup
 
 ```bash
-cd ../frontend
+# If you're in the root directory (most common when using IDE terminals)
+cd Comparison-front
+
+# OR if you followed step 2 and are still in Comparison-back/ directory
+cd ../Comparison-front
 
 # Install dependencies
 npm install
@@ -60,6 +64,8 @@ npm install
 # Start development server
 npm run dev
 ```
+
+**💡 Tip**: If you're using VS Code or IntelliJ IDEA and opened the project folder, your terminal will start in the root directory (`EccRsaComparison/`), so use `cd Comparison-front`.
 
 The frontend will start on `http://localhost:5173`
 
@@ -118,14 +124,14 @@ RsaVsEccComparison/
 │   │           └── model/         # Data Models
 │   ├── build.gradle
 │   └── README-BACKEND.md
-├── frontend/                 # React Frontend
+├── Comparison-front/         # React Frontend
 │   ├── src/
 │   │   ├── components/       # React Components
 │   │   ├── pages/           # Page Components
 │   │   ├── services/        # API Services
 │   │   └── utils/           # Utility Functions
 │   ├── package.json
-│   └── README-FRONTEND.md
+│   └── README.md
 └── README.md                # This file
 ```
 

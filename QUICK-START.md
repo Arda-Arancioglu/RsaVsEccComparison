@@ -26,7 +26,7 @@ cd Comparison-back
 ### 3. Start Frontend (Terminal 2)
 
 ```bash
-cd frontend
+cd Comparison-front
 npm install
 npm run dev
 ```
