@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +17,7 @@ public class CryptoComparisonService {
     private final RsaCryptoService rsaService;
     private final EccCryptoService eccService;
     private final SecurityEstimatorService securityEstimator;
+    private final SecureRandom secureRandom = new SecureRandom();
 
     public List<CryptoTestResult> runComparison(CryptoTestConfig config) {
         List<CryptoTestResult> results = new ArrayList<>();
@@ -38,6 +39,18 @@ public class CryptoComparisonService {
         result.setKeySize(keySize);
 
         try {
+            // Validate key size is supported
+            boolean supportedKeySize = false;
+            for (int supported : service.getSupportedKeySizes()) {
+                if (supported == keySize) {
+                    supportedKeySize = true;
+                    break;
+                }
+            }
+            if (!supportedKeySize) {
+                throw new IllegalArgumentException("Unsupported key size: " + keySize);
+            }
+
             // Generate keys
             long keyGenStart = System.nanoTime();
             Object[] keyPair = service.generateKeyPair(keySize);
@@ -56,10 +69,17 @@ public class CryptoComparisonService {
             long decryptTime = System.nanoTime() - decryptStart;
             result.setDecryptionTime(decryptTime / 1_000_000.0); // ms
 
+            // Verify decryption worked correctly
+            if (!java.util.Arrays.equals(data, decrypted)) {
+                throw new RuntimeException("Decryption failed - data mismatch");
+            }
+
             // Calculate theoretical break time
             result.setSecurityEstimate(securityEstimator.estimateBreakTime(service.getAlgorithmName(), keySize));
 
             result.setSuccess(true);
+            log.debug("Successfully tested {} with key size {} and data size {}",
+                    service.getAlgorithmName(), keySize, data.length);
         } catch (Exception e) {
             log.error("Error testing {} with key size {}: {}",
                     service.getAlgorithmName(), keySize, e.getMessage());
@@ -72,7 +92,7 @@ public class CryptoComparisonService {
 
     private byte[] generateRandomData(int size) {
         byte[] data = new byte[size];
-        new Random().nextBytes(data);
+        secureRandom.nextBytes(data);
         return data;
     }
 }
